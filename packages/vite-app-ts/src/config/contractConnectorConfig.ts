@@ -24,9 +24,9 @@ export const contractConnectorConfig = () => {
   try {
     const result = {
       // 🙋🏽‍♂️ Add your hadrdhat contracts here
-      YourContract: createConnectorForHardhatContract(
-        'YourContract',
-        hardhatContracts.YourContract__factory,
+      EveryNFT: createConnectorForHardhatContract(
+        'EveryNFT',
+        hardhatContracts.EveryNFT__factory,
         hardhatContractsJson
       ),
 
@@ -35,7 +35,6 @@ export const contractConnectorConfig = () => {
       UNI: createConnectorForExternalContract('UNI', externalContracts.UNI__factory, externalContractsAddressMap),
 
       // 🙋🏽‍♂️ Add your external abi here (unverified contracts)`
-      // DAI: createConnectorForExternalAbi('DAI', { 1: {address: 'xxxx'}}, abi),
     } as const;
 
     return result;

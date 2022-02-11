@@ -7,6 +7,7 @@ import { IScaffoldAppProviders } from '~~/components/main/hooks/useScaffoldAppPr
 import { useEthersContext } from 'eth-hooks/context';
 import { useGasPrice } from 'eth-hooks';
 import { getNetworkInfo } from '~~/functions';
+import { spawn } from 'child_process';
 
 // displays a page header
 export interface IMainPageHeaderProps {
@@ -33,19 +34,13 @@ export const MainPageHeader: FC<IMainPageHeaderProps> = (props) => {
     <>
       <div>
         <PageHeader
-          title="🏰 BuidlGuidl"
+          title="Every NFT Ever"
           subTitle={
-            <span>
-              v2.1 - [
-              <a href="https://youtu.be/aYMj00JoIug" target="_blank" rel="noreferrer">
-                <span style={{ marginRight: 4 }}>🎥 </span> 8min speed run
-              </a>
-              ] - [
-              <a href="https://trello.com/b/ppbUs796/buidlguidlcom-idea-board" target="_blank" rel="noreferrer">
-                <span style={{ marginRight: 4 }}>💡 </span> trello
-              </a>
-              ]{' '}
-            </span>
+            <div>
+              <span>The only NFT you will ever need</span>
+              <br />
+              <span>by @blind_nabler</span>
+            </div>
           }
           style={{ cursor: 'pointer' }}
         />

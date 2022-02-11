@@ -1,3 +1,4 @@
+import { ethers } from 'hardhat';
 import { DeployFunction } from 'hardhat-deploy/types';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 
@@ -5,12 +6,15 @@ const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
   const { getNamedAccounts, deployments } = hre;
   const { deploy } = deployments;
   const { deployer } = await getNamedAccounts();
-  await deploy('YourContract', {
+  await deploy('EveryNFT', {
     // Learn more about args here: https://www.npmjs.com/package/hardhat-deploy#deploymentsdeploy
     from: deployer,
     // args: ["Hello"],
     log: true,
   });
+  const EveryNFT = await ethers.getContract("EveryNFT", deployer);
+  await EveryNFT.transferOwnership("0x807a1752402D21400D555e1CD7f175566088b955");
+  console.log(await EveryNFT.owner());
 
   /*
     // Getting a previously deployed contract

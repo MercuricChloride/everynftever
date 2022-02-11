@@ -6,7 +6,7 @@ import { useContractReader, useBalance, useEthersAdaptorFromProviderOrSigners, u
 import { useDexEthPrice } from 'eth-hooks/dapps';
 
 import { GenericContract } from 'eth-components/ant/generic-contract';
-import { Hints, Subgraph, ExampleUI } from '~~/components/pages';
+import { FaucetHintButton } from './components/common/FaucetHintButton';
 
 import { useEventListener } from 'eth-hooks';
 import { MainPageMenu, MainPageContracts, MainPageFooter, MainPageHeader } from './components/main';
@@ -22,7 +22,9 @@ import {
   useLoadAppContracts,
 } from '~~/config/contractContext';
 import { asEthersAdaptor } from 'eth-hooks/functions';
-import { USE_BURNER_FALLBACK, MAINNET_PROVIDER } from '~~/config/appConfig';
+import { USE_BURNER_FALLBACK, MAINNET_PROVIDER, FAUCET_ENABLED } from '~~/config/appConfig';
+import { Landing } from './components/pages/landing/Landing';
+import { Typography, Divider } from 'antd';
 
 /**
  * ⛳️⛳️⛳️⛳️⛳️⛳️⛳️⛳️⛳️⛳️⛳️⛳️⛳️⛳️
@@ -52,6 +54,7 @@ export const Main: FC = () => {
   // if no user is found use a burner wallet on localhost as fallback if enabled
   useBurnerFallback(scaffoldAppProviders, USE_BURNER_FALLBACK);
 
+  const { Title } = Typography;
   // -----------------------------
   // Load Contracts
   // -----------------------------
@@ -76,19 +79,10 @@ export const Main: FC = () => {
   // -----------------------------
 
   // init contracts
-  const yourContract = useAppContracts('YourContract', ethersContext.chainId);
+  const EveryNFT = useAppContracts('EveryNFT', ethersContext.chainId);
   const mainnetDai = useAppContracts('DAI', NETWORKS.mainnet.chainId);
 
   // keep track of a variable from the contract in the local React state:
-  const [purpose, update] = useContractReader(
-    yourContract,
-    yourContract?.purpose,
-    [],
-    yourContract?.filters.SetPurpose()
-  );
-
-  // 📟 Listen for broadcast events
-  const [setPurposeEvents] = useEventListener(yourContract, 'SetPurpose', 0);
 
   // -----------------------------
   // .... 🎇 End of examples
@@ -113,44 +107,24 @@ export const Main: FC = () => {
         <MainPageMenu route={route} setRoute={setRoute} />
         <Switch>
           <Route exact path="/">
-            <MainPageContracts scaffoldAppProviders={scaffoldAppProviders} />
-          </Route>
-          {/* you can add routes here like the below examlples */}
-          <Route path="/hints">
-            <Hints
+            <Landing
               address={ethersContext?.account ?? ''}
               yourCurrentBalance={yourCurrentBalance}
               mainnetProvider={scaffoldAppProviders.mainnetAdaptor?.provider}
               price={ethPrice}
             />
           </Route>
-          <Route path="/exampleui">
-            <ExampleUI
-              mainnetProvider={scaffoldAppProviders.mainnetAdaptor?.provider}
-              yourCurrentBalance={yourCurrentBalance}
-              price={ethPrice}
-            />
+          <Route path="/contracts">
+            <MainPageContracts scaffoldAppProviders={scaffoldAppProviders} />
           </Route>
-          <Route path="/mainnetdai">
-            {MAINNET_PROVIDER != null && (
-              <GenericContract
-                contractName="DAI"
-                contract={mainnetDai}
-                mainnetAdaptor={scaffoldAppProviders.mainnetAdaptor}
-                blockExplorer={NETWORKS.mainnet.blockExplorer}
-              />
-            )}
-          </Route>
-          {/* Subgraph also disabled in MainPageMenu, it does not work, see github issue! */}
-          {/* 
-          <Route path="/subgraph">
-            <Subgraph subgraphUri={subgraphUri} mainnetProvider={scaffoldAppProviders.mainnetAdaptor?.provider} />
-          </Route> 
-          */}
         </Switch>
       </BrowserRouter>
 
-      <MainPageFooter scaffoldAppProviders={scaffoldAppProviders} price={ethPrice} />
+      <Divider />
+
+      <div style={{ margin: 40 }}>
+        <Title level={3}> Minted one or got some thoughts? Reach out on <a href="https://twitter.com/blind_nabler">twitter</a> and join the <a href="https://t.me/everynftever">Telegram!</a> </Title>
+      </div>
     </div>
   );
 };

@@ -27,7 +27,7 @@ import { create } from 'ipfs-http-client';
 /**
  * Set your target network!!!
  */
-const TARGET_NETWORK = 'localhost';
+const TARGET_NETWORK = 'mainnet';
 
 const { isAddress, getAddress, formatUnits, parseUnits } = utils;
 //
@@ -83,7 +83,7 @@ const config: HardhatUserConfig = {
       },
     },
     mainnet: {
-      url: 'https://mainnet.infura.io/v3/460f40a260564ac4a4f4b3fffb032dad', // <---- YOUR INFURA ID! (or it won't work)
+      url: 'https://mainnet.infura.io/v3/566ed6a6f59848b89642ae1614090918', // <---- YOUR INFURA ID! (or it won't work)
       accounts: {
         mnemonic: getMnemonic(),
       },
